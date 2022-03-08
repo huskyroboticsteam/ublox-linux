@@ -3,3 +3,4 @@ linux_build/lib/*
 linux_build/build/*
 android_build/libs/*
 android_build/obj/*
+/build/
