@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-project(ublox_linux
+project(UbloxLinux
   LANGUAGES CXX
   VERSION 2.0.5)
 
@@ -15,8 +15,11 @@ add_library(ublox_linux SHARED
 
 target_include_directories(ublox_linux PUBLIC
   $<INSTALL_INTERFACE:include>
+  $<INSTALL_INTERFACE:include/ublox_linux>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/inc>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/SparkFun_u-blox_GNSS_Arduino_Library/src>)
+
+target_link_libraries(ublox_linux util)
 
 set_property(TARGET ublox_linux PROPERTY CXX_STANDARD 11)
 target_compile_options(ublox_linux PUBLIC -Wno-deprecated -fconcepts -Wall)
@@ -32,16 +35,16 @@ if (DEFINED PROJECT_NAME)
   install(DIRECTORY SparkFun_u-blox_GNSS_Arduino_Library/src/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/ublox_linux)
   install(EXPORT ublox-targets
-    FILE UbloxTargets.cmake
-    NAMESPACE ublox::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ublox_linux)
+    FILE UbloxLinuxTargets.cmake
+    NAMESPACE UbloxLinux::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/UbloxLinux)
 
   configure_package_config_file(
     ${CMAKE_CURRENT_LIST_DIR}/cmake/UbloxLinuxConfig.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/UbloxLinuxConfig.cmake
-    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ublox_linux)
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/UbloxLinux)
 
   install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/UbloxLinuxConfig.cmake"
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/ublox_linux)
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/UbloxLinux)
 endif()
