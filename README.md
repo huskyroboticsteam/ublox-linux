@@ -1,33 +1,34 @@
-# Ublox_Linux_Library
-The aim of this repository to port the SparkFun_u-blox_GNSS_Arduino_Library to linux platform.
+# `ublox_linux` library
+A port of Sparkfun's Arduino library for u-blox GPS modules to Linux,
+with new CMake config to handle installing the library (and including
+it in other projects).
 
-## How to pull the code
-* git clone https://github.com/balamuruganky/Ublox_Linux_Library
-* cd Ublox_Linux_Library
-* git submodule update --init
+## Installation
+1. `git clone --recursive https://github.com/huskyroboticsteam/ublox-linux`
 
-## How to compile Linux Library (Assumed that CMake setup done already)
-* cd linux_build
-* mkdir build
-* cd build
-* cmake ..
-* make
+	**NOTE**: It is important you include the `--recursive` as this
+    repository contains the Sparkfun library as a submodule.
+2. `cd ublox-linux`
+3. `mkdir build && cd build`
+4. `cmake ..`
+5. `sudo cmake --build . --target install`
 
-## How to compile Android Library (Assumed that NDK setup done already)
-* cd android_build
-* ndk-build -j2 NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=./Android.mk NDK_APPLICATION_MK=./Application.mk
-
-## How to execute test
-* cd ../bin (Assuming the current directorty is build directory, created above)
-* ./ublox_f9p_test /dev/ttyACM0
-* ./ublox_f9p_i2c_test /dev/ublox_i2c 0x42 (or without command line arguments)
+## Including in a project
+To include the library in a CMake project, do the above installation
+steps and then add
+```cmake
+find_package(UbloxLinux REQUIRED)
+```
+to your `CMakeLists.txt`. Additionally, for every executable you want
+to link to the library, you will need to add
+```cmake
+target_link_libraries(executable_name_here UbloxLinux::ublox_linux)
+```
 
 ## License
-This repository consists files from different other repositories such as Arduino and SparkFun_u-blox_GNSS_Arduino_Library. Please consider the licenses according to the files where it is from.
+Library was originally written by @sugbuv and @StevenMedusa; CMake
+config modified by Husky Robotics Team. The library is under the MIT
+license; see `LICENSE` for more details.
 
-## Linux Examples
-Feel free to port the examples from Sparkfun_Ublox_Arduino_Library to linux.
-
-## Future Work
-Port some important examples from Arduino to Linux
-
+Original Arduino library was written by SparkFun Electronics and is
+also under the MIT license.
